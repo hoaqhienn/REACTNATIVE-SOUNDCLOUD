@@ -24,7 +24,7 @@ export default function Screen_Start({ navigation }) {
         marginBottom: 40
       }}>Discover new artists.</Text>
       <Pressable
-        onPress={() => (navigation.navigate(''))}
+        onPress={() => (navigation.navigate('SignUp'))}
         style={{
           width: '90%',
           height: 55,

@@ -1,15 +1,54 @@
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function Screen_SignUp({ navigation }) {
+export default function Screen_SignUp({ navigation, route }) {
   const icon1 = <Ionicons name="ios-eye" size={24} color="black" />
   const icon2 = <Ionicons name="ios-eye-off" size={24} color="black" />
   const [currentIcon, setCurrentIcon] = useState(icon1)
+  const [idAcconut, setidAcconut] = useState();
+
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(`https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/account/`)
+      .then(response => response.json())
+      .then(dataResponse => {
+        setData(dataResponse);
+        const ids = dataResponse.work.map(item => parseInt(item.id));
+        const maxId = Math.max(...ids);
+        setidAcconut((maxId + 1).toString());
+        console.log("new id", maxId+1);
+        console.log("dataResponse",dataResponse);
+      });
+  }, [])
+  console.log(idAcconut);
+  const addAccount = () => {
+    const newAccount = {
+      id: idAcconut,
+      username: username,
+      password: password,
+      avatar: "https://baogiaothong.mediacdn.vn/upload/2-2022/images/2022-05-25/1-1653445668-308-width740height476.jpg",
+
+    };
+
+    fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        newAccount
+      )
+    })  
+  }
+
   return (
     <View style={styles.container}>
       <View style={{
@@ -93,6 +132,8 @@ export default function Screen_SignUp({ navigation }) {
 
 
       <TextInput
+        value={username}
+        onChangeText={text => setUsername(text)}
         style={{
           backgroundColor: '#FFF',
           width: '90%',
@@ -109,6 +150,8 @@ export default function Screen_SignUp({ navigation }) {
       }}>
 
         <TextInput
+        value={password}
+        onChangeText={text => setPassword(text)}
           style={{
             backgroundColor: '#FFF',
             width: '100%',
@@ -142,7 +185,9 @@ export default function Screen_SignUp({ navigation }) {
         backgroundColor: '#000',
         borderRadius: 5,
         marginTop: 40
-      }}>
+      }}
+      onPress={() => {navigation.navigate('Start'), addAccount()}}
+      >
         <Text style={{
           fontSize: 12,
           fontWeight: 'bold',

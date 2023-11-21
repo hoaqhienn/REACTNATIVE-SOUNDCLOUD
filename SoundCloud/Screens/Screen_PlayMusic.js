@@ -1,8 +1,8 @@
-import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image,Button } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image, Button } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Feather, AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 const TRACK_URL = 'https://res.cloudinary.com/soundcloudreactnative/video/upload/v1699948060/music/simpgai808.mp3';
@@ -22,7 +22,7 @@ export default function Screen_PlayMusic({ navigation, route }) {
   const [musicurl, setMusicurl] = useState('');
   useEffect(() => {
     setMusicurl(route.params.item);
-      loadTrack();
+    loadTrack();
   }, []);
 
   const playTrack = async () => {
@@ -42,19 +42,50 @@ export default function Screen_PlayMusic({ navigation, route }) {
     });
 
     setSound(sound);
-    console.log(sound);
   }
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.img}
+        source={{
+          uri: route.params.item.img
+        }}
 
-      <Button title="Play" onPress={playTrack} />
-      <Button title="Pause" onPress={pauseTrack} />
+      />
 
-      <Image style={{width:200, height:400, resizeMode:'contain'}} 
-      source={
-        {uri:musicurl.img}
-      } />
+      <View>
+        <View>
+          <Text numberOfLines={2} style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 20 }}>{route.params.item.musicname} - {route.params.item.singer}</Text>
+          
+        </View>
+      </View>
+      <View style={{ marginTop: 150 }}>
+        <Button title="Play" onPress={playTrack} />
+        <Button title="Pause" onPress={pauseTrack} />
+      </View>
+
+      <Image style={{ width: 200, height: 400, resizeMode: 'contain' }}
+        source={
+          { uri: musicurl.img }
+        } />
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <AntDesign name="hearto" size={21} color="white" style={{ paddingRight: 10 }} />
+          <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+            1,3K
+          </Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <MaterialCommunityIcons name="comment-text-outline" size={24} color="white" />
+          <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+            5
+          </Text>
+        </View>
+        <Feather name="share-2" size={24} color="white" />
+        <MaterialIcons name="playlist-play" size={35} color="white" />
+        <Entypo name="dots-three-vertical" size={20} color="white" />
+      </View>
     </View>
   );
 }
@@ -62,52 +93,15 @@ export default function Screen_PlayMusic({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#252A2F',
     alignItems: 'center',
-    marginTop:100
+
   },
+  img: {
+    ...StyleSheet.absoluteFillObject,
+    width: 'null',
+    height: 'null',
+    resizeMode: 'stretch',
+    borderRadius: 30,
+  }
 });
-
-
-// export default function App() {
-// console.log();
-//   const [sound, setSound] = useState();
-
-//   const loadTrack = async () => {
-//     const { sound } = await Audio.Sound.createAsync({
-//       uri: TRACK_URL
-//     });
-
-//     setSound(sound);
-//     console.log(sound);
-//   }
-//   useEffect(() => {
-//       loadTrack();
-//   }, []);
-//   const playTrack = async () => {
-//     await sound.playAsync();
-//     const status = await sound.getStatusAsync();
-//     console.log(status.durationMillis);
-//   }
-
-//   const pauseTrack = async () => {
-//     await sound.pauseAsync();
-//   }
-
-//   // ...
-
-//   return (
-//     <View style={{marginTop:200}}>
-//       {/* <Button title="Load" onPress={loadTrack} /> */}
-//       <Button title="Play" onPress={playTrack} />
-//       <Button title="Pause" onPress={pauseTrack} />
-
-//       <Image style={{width:200, height:400, resizeMode:'contain'}} 
-//       source={
-//         // require('./assets/icon.png')
-//         {uri:'https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg'}
-//       } />
-//     </View>
-//   );
-
-// }
