@@ -77,7 +77,7 @@ export default function Screen_Home() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music"
+          "https://655e2b5a9f1e1093c59aa3d1.mockapi.io/api/music"
         );
         const fetchedData = await response.json();
         setData(fetchedData);
