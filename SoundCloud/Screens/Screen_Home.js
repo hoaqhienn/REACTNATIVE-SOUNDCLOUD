@@ -1,11 +1,15 @@
 import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Ionicons, Foundation, MaterialCommunityIcons, Feather, AntDesign } from '@expo/vector-icons';
+import { ContextMusic } from '../Context/ContextMusic';
 
 
 export default function Screen_Home({ navigation, route }) {
+const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
+// console.log(dataMusic);
+// console.log(loadMusic(1));
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
@@ -13,6 +17,7 @@ export default function Screen_Home({ navigation, route }) {
       .then(data => {
         setData(data);
       })
+    // loadMusic(2);
   }, []);
   return (
     <View style={styles.container}>
@@ -211,7 +216,7 @@ export default function Screen_Home({ navigation, route }) {
           </View>
 
           <View style={{ width: '100%', marginTop: 30 }}>
-            <Text style={{ fontSize: 20, fontWeight: '600', paddingLeft: 20 }}>Charts: Top 50 s</Text>
+            <Text style={{ fontSize: 20, fontWeight: '600', paddingLeft: 20 }}>Charts: Top 50</Text>
             <ScrollView horizontal={true} >
               <FlatList
                 showsHorizontalScrollIndicator={false}
@@ -273,7 +278,13 @@ export default function Screen_Home({ navigation, route }) {
 
       </View>
       <View style={{ backgroundColor: 'black', height: '6%', width: '100%', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }} >
-        <Foundation name="play" size={26} color="white" style={{ paddingLeft: 20 }} />
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} />
+          <View style={{width:'70%'}}>
+            <Text numberOfLines={1} style={{color:'white', fontSize:13, fontWeight:'700'}}>Tháng năm | Freak D Remix</Text>
+            <Text style={{color:'white', fontSize:13,}}>DeeYouSee</Text>
+          </View>
+        </View>
 
         <View style={{ flexDirection: 'row' }}>
           <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} />

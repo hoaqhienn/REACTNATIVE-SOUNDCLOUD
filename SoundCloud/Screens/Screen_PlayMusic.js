@@ -1,48 +1,42 @@
 import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image, Button } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Feather, AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
+import { ContextMusic } from '../Context/ContextMusic';
 const TRACK_URL = 'https://res.cloudinary.com/soundcloudreactnative/video/upload/v1699948060/music/simpgai808.mp3';
 export default function Screen_PlayMusic({ navigation, route }) {
   const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setData(data);
-  //       console.log(data);
-  //     })
-  // }, []);
 
-  console.log(route.params.item);
+
+  const { musicdata,loadMusic, sound,pauseTrack, playTrack, stopTrack } = useContext(ContextMusic);
+  console.log(route.params.item.url);
 
   const [musicurl, setMusicurl] = useState('');
   useEffect(() => {
+    stopTrack();
     setMusicurl(route.params.item);
-    loadTrack();
-  }, []);
+    loadMusic(route.params.item.url);
+    // playTrack();
+  }, [route.params.item.url]);
+console.log(sound);
+useEffect(() => {
+  playTrack();
+}, []);
+  // const pauseTrack = async () => {
+  //   await sound.pauseAsync();
+  // }
+  // const [sound, setSound] = useState();
 
-  const playTrack = async () => {
-    await sound.playAsync();
-    const status = await sound.getStatusAsync();
-    console.log(status.durationMillis);
-  }
+  // const loadTrack = async () => {
+  //   const { sound } = await Audio.Sound.createAsync({
+  //     uri: route.params.item.url
+  //   });
 
-  const pauseTrack = async () => {
-    await sound.pauseAsync();
-  }
-  const [sound, setSound] = useState();
-
-  const loadTrack = async () => {
-    const { sound } = await Audio.Sound.createAsync({
-      uri: route.params.item.url
-    });
-
-    setSound(sound);
-  }
+  //   setSound(sound);
+  // }
 
   return (
     <View style={styles.container}>
@@ -53,7 +47,7 @@ export default function Screen_PlayMusic({ navigation, route }) {
         }}
 
       />
-
+      <Pressable style={{marginTop:50}} onPress={() => navigation.goBack()}><Text>Go back</Text></Pressable>
       <View>
         <View>
           <Text numberOfLines={2} style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 20 }}>{route.params.item.musicname} - {route.params.item.singer}</Text>
