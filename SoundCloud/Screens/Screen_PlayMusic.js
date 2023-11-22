@@ -11,7 +11,7 @@ export default function Screen_PlayMusic({ navigation, route }) {
   const [data, setData] = useState([]);
 
 
-  const { musicdata,loadMusic, sound,pauseTrack, playTrack, stopTrack } = useContext(ContextMusic);
+  const { loadMusic, sound, pauseTrack, playTrack, stopTrack } = useContext(ContextMusic);
   console.log(route.params.item.url);
 
   const [musicurl, setMusicurl] = useState('');
@@ -21,10 +21,10 @@ export default function Screen_PlayMusic({ navigation, route }) {
     loadMusic(route.params.item.url);
     // playTrack();
   }, [route.params.item.url]);
-console.log(sound);
-useEffect(() => {
-  playTrack();
-}, []);
+  console.log(sound);
+  useEffect(() => {
+    playTrack();
+  }, []);
   // const pauseTrack = async () => {
   //   await sound.pauseAsync();
   // }
@@ -47,11 +47,11 @@ useEffect(() => {
         }}
 
       />
-      <Pressable style={{marginTop:50}} onPress={() => navigation.goBack()}><Text>Go back</Text></Pressable>
+      <Pressable style={{ marginTop: 50 }} onPress={() => navigation.goBack()}><Text>Go back</Text></Pressable>
       <View>
         <View>
           <Text numberOfLines={2} style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 20 }}>{route.params.item.musicname} - {route.params.item.singer}</Text>
-          
+
         </View>
       </View>
       <View style={{ marginTop: 150 }}>
@@ -63,7 +63,7 @@ useEffect(() => {
         source={
           { uri: musicurl.img }
         } />
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%', height: '10%', marginTop: 55 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <AntDesign name="hearto" size={21} color="white" style={{ paddingRight: 10 }} />
           <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   img: {
     ...StyleSheet.absoluteFillObject,
     width: 'null',
-    height: 'null',
+    height: '90%',
     resizeMode: 'stretch',
     borderRadius: 30,
   }

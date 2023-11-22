@@ -7,14 +7,23 @@ export const ContextMusic = createContext({});
 
 
 export const ContextMusicProvider = ({ children }) => {
-    const [musicdata, setMusicData] = useState([]);
+    const [data, setData] = useState([]);
     useEffect(() => {
-        fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
+        fetch('https://655e2b5a9f1e1093c59aa3d1.mockapi.io/api/music')
             .then(response => response.json())
             .then(data => {
-                setMusicData(data);
+                setData(data);
             })
     }, []);
+    const [dataPlay, setDataPlay] = useState([]);
+    const musicLoadPlay = (id) => {
+        fetch('https://655e2b5a9f1e1093c59aa3d1.mockapi.io/api/music/'+id)
+            .then(response => response.json())
+            .then(data => {
+                setDataPlay(data);
+            })
+    }
+  
     // const [dataMusic, setDataMusic] = useState([]);
     const [sound, setSound] = useState();
     const loadMusic = async (url) => {
@@ -44,7 +53,7 @@ export const ContextMusicProvider = ({ children }) => {
     const pauseTrack = async () => {
         await sound.pauseAsync();
       }
-    return <ContextMusic.Provider value={{ musicdata, loadMusic, sound, playTrack ,pauseTrack, stopTrack }}>
+    return <ContextMusic.Provider value={{ data, loadMusic, sound, playTrack ,pauseTrack, stopTrack, musicLoadPlay, dataPlay }}>
         {children}
     </ContextMusic.Provider>;
 }

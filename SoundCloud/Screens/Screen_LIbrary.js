@@ -1,19 +1,13 @@
 import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Ionicons, Foundation, FontAwesome5, Feather, AntDesign, Entypo } from '@expo/vector-icons';
+import { ContextMusic } from '../Context/ContextMusic';
 
 
 export default function Screen_Library({ navigation, route }) {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-      })
-  }, []);
+  const { data,loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, dataPlay } = useContext(ContextMusic);
   return (
     <View style={styles.container}>
 

@@ -4,21 +4,15 @@ import { TextInput } from 'react-native-paper';
 import { useEffect, useState, useContext } from 'react';
 import { Ionicons, Foundation, MaterialCommunityIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { ContextMusic } from '../Context/ContextMusic';
-
+import {shuffle} from 'lodash';
 
 export default function Screen_Home({ navigation, route }) {
-const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
-// console.log(dataMusic);
-// console.log(loadMusic(1));
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-      })
-    // loadMusic(2);
-  }, []);
+  const { data,loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, dataPlay } = useContext(ContextMusic);
+  const shuffledData1 = shuffle(data); 
+  const shuffledData2 = shuffle(data); 
+  const shuffledData3 = shuffle(data); 
+  const shuffledData4 = shuffle(data); 
+
   return (
     <View style={styles.container}>
 
@@ -49,7 +43,7 @@ const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={data}
+              data={shuffledData1}
               renderItem={({ item }) => (
                 <View>
                   <Pressable onPress={() => navigation.navigate("Track", { item })}>
@@ -106,10 +100,10 @@ const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={data}
+              data={shuffledData2}
               renderItem={({ item }) => (
                 <View>
-                  <Pressable onPress={() => navigation.navigate("PlayMusic", { item })}>
+                  <Pressable onPress={() => navigation.navigate("Track", { item })}>
                     <View style={{
                       width: 100,
                       height: 100,
@@ -163,10 +157,10 @@ const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={data}
+              data={shuffledData3}
               renderItem={({ item }) => (
                 <View>
-                  <Pressable onPress={() => navigation.navigate("PlayMusic", { item })}>
+                  <Pressable onPress={() => navigation.navigate("Track", { item })}>
                     <View style={{
                       width: 100,
                       height: 100,
@@ -222,10 +216,10 @@ const { musicdata,loadMusic, dataMusic } = useContext(ContextMusic);
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 style={{ width: '100%' }}
-                data={data}
+                data={shuffledData4}
                 renderItem={({ item }) => (
                   <View>
-                    <Pressable onPress={() => navigation.navigate("PlayMusic", { item })}>
+                    <Pressable onPress={() =>navigation.navigate("Track", { item })}>
                       <View style={{
                         width: 100,
                         height: 100,
