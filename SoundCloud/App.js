@@ -63,10 +63,10 @@ const TabScreens = () => (
     }} component={TabScreens1} />
     <Tab.Screen name="Feed" options={{ headerShown: false
      
-    }} component={Screen_Search} />
+    }} component={Screen_Feed} />
     <Tab.Screen name="Search" options={{ headerShown: false
       
-    }} component={Screen_Feed} />
+    }} component={Screen_Search} />
     <Tab.Screen name="Libarary" options={{ headerShown: false
     
     }}  component={Screen_Library} />
@@ -78,9 +78,9 @@ const TabScreens = () => (
 function MyStack() {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} /> */}
-      {/* <Stack.Screen name="Login" component={Screen_Login} options={{headerShown:false}} /> */}
-      {/* <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} /> */}
+      {/* <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
+      <Stack.Screen name="Login" component={Screen_Login} options={{headerShown:false}} />
+      <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} /> */}
       <Stack.Screen name="Home" component={TabScreens} options={{headerShown:false}} />
       <Stack.Screen name="PlayMusic" component={Screen_PlayMusic} options={{headerShown:false}} />
       <Stack.Screen name="Track" component={Screen_Track} options={{headerShown:false}} />
