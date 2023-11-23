@@ -50,6 +50,7 @@ export const ContextMusicProvider = ({ children }) => {
       setCurrentIconAdd(iconAdd1)
       setCurrentIconAdd1(iconAdd11)
       setCurrentIconLove(iconLove1)
+      setCurrentIconPlay(iconPlay2)
       setDurationMillis(status.durationMillis);
         
       }
