@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Image } from "react-native";
+import { Pressable, Text, View, Image, ActivityIndicator } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -6,9 +6,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Screen_Login({ navigation }) {
-  const icon1 = <Ionicons name="ios-eye" size={24} color="black" />;
-  const icon2 = <Ionicons name="ios-eye-off" size={24} color="black" />;
-  const [currentIcon, setCurrentIcon] = useState(icon1);
+  const eyeIcon = <Ionicons name="ios-eye" size={24} color="black" />;
+  const eyeSlashIcon = <Ionicons name="ios-eye-off" size={24} color="black" />;
 
   const [data, setdata] = useState([]);
   useEffect(() => {
@@ -23,30 +22,73 @@ export default function Screen_Login({ navigation }) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
+  const [emailLoading, setEmailLoading] = useState(false);
   const checkAccount = () => {
     data.map((item) => {
       if (item.username === username && item.password === password) {
-        // return console.log('ok');
-        return navigation.navigate("Home");
+        setEmailLoading(true);
+        setTimeout(() => {
+          navigation.navigate("Home");
+          setEmailLoading(false);
+        }, 300);
       } else {
         return console.log("no");
       }
     });
   };
 
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [faceookLoading, setFacebookLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
+
+  const handleGooglePress = () => {
+    setGoogleLoading(true);
+    setTimeout(() => {
+      navigation.navigate("Home");
+      setGoogleLoading(false);
+    }, 300);
+  };
+
+  const handleFacebookPress = () => {
+    setFacebookLoading(true);
+    setTimeout(() => {
+      navigation.navigate("Home");
+      setFacebookLoading(false);
+    }, 300);
+  };
+
+  const handleApplePress = () => {
+    setAppleLoading(true);
+    setTimeout(() => {
+      navigation.navigate("Home");
+      setAppleLoading(false);
+    }, 300);
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
-          marginLeft: 40,
+          paddingLeft: 20,
           marginTop: 30,
           width: "100%",
           marginBottom: 20,
         }}
       >
         <Pressable
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate("Start")}
           style={{
             width: 30,
             height: 30,
@@ -69,7 +111,7 @@ export default function Screen_Login({ navigation }) {
         </Text>
       </View>
       <Pressable
-        onPress={() => navigation.navigate("Home")}
+        onPress={handleGooglePress}
         style={{
           width: "90%",
           height: 50,
@@ -81,22 +123,29 @@ export default function Screen_Login({ navigation }) {
           marginBottom: 15,
         }}
       >
-        <Image
-          source={require("../assets/google.png")}
-          style={{ width: 25, height: 25 }}
-        />
-        <Text
-          style={{
-            fontSize: 12,
-            fontWeight: "bold",
-            marginLeft: 5,
-          }}
-        >
-          Continue width Google
-        </Text>
+        {googleLoading ? (
+          <ActivityIndicator size="large" color="#000" />
+        ) : (
+          <>
+            <Image
+              source={require("../assets/google.png")}
+              style={{ width: 25, height: 25 }}
+            />
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                marginLeft: 5,
+              }}
+            >
+              Continue with Google
+            </Text>
+          </>
+        )}
       </Pressable>
 
       <Pressable
+        onPress={handleFacebookPress}
         style={{
           width: "90%",
           height: 50,
@@ -108,19 +157,26 @@ export default function Screen_Login({ navigation }) {
           marginBottom: 15,
         }}
       >
-        <FontAwesome5 name="facebook" size={24} color="white" />
-        <Text
-          style={{
-            fontSize: 12,
-            fontWeight: "bold",
-            marginLeft: 5,
-            color: "#fff",
-          }}
-        >
-          Continue with Facebook
-        </Text>
+        {faceookLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <>
+            <FontAwesome5 name="facebook" size={24} color="white" />
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                marginLeft: 5,
+                color: "#fff",
+              }}
+            >
+              Continue with Facebook
+            </Text>
+          </>
+        )}
       </Pressable>
       <Pressable
+        onPress={handleApplePress}
         style={{
           width: "90%",
           height: 50,
@@ -131,17 +187,23 @@ export default function Screen_Login({ navigation }) {
           borderRadius: 5,
         }}
       >
-        <Ionicons name="ios-logo-apple" size={24} color="white" />
-        <Text
-          style={{
-            fontSize: 12,
-            fontWeight: "bold",
-            marginLeft: 5,
-            color: "#fff",
-          }}
-        >
-          Continue with Apple
-        </Text>
+        {appleLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <>
+            <Ionicons name="ios-logo-apple" size={24} color="white" />
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                marginLeft: 5,
+                color: "#fff",
+              }}
+            >
+              Continue with Apple
+            </Text>
+          </>
+        )}
       </Pressable>
 
       <TextInput
@@ -153,7 +215,7 @@ export default function Screen_Login({ navigation }) {
           marginTop: 20,
           height: 50,
         }}
-        label="Email"
+        label="Email *"
         underlineColor="#cfcfcf"
         labelColor="red"
       />
@@ -163,37 +225,28 @@ export default function Screen_Login({ navigation }) {
           position: "relative",
           flexDirection: "row",
           alignItems: "center",
-          marginTop: 20,
-          borderBottomWidth: 1,
-          borderBottomColor: "#bbb",
+          marginTop: 10,
         }}
       >
         <TextInput
           value={password}
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={(text) => setPassword(text)}
           style={{
             backgroundColor: "#FFF",
             width: "100%",
-            fontSize: 13,
             color: "red",
             height: 50,
           }}
-          label="Password (min. 8 characters)"
-          underlineColor="none"
+          label="Password *"
+          secureTextEntry={!isPasswordVisible}
+          underlineColorAndroid="transparent"
         />
+
         <Pressable
-          onPress={() => {
-            if (currentIcon.props.name === "ios-eye") {
-              console.log(icon1.props.name);
-              setCurrentIcon(icon2);
-            } else {
-              setCurrentIcon(icon1);
-            }
-          }}
+          onPress={togglePasswordVisibility}
           style={{ position: "absolute", right: 0 }}
         >
-          {currentIcon}
-          {/* <Ionicons name="ios-eye-off" size={24} color="black" /> */}
+          {isPasswordVisible ? eyeSlashIcon : eyeIcon}
         </Pressable>
       </View>
       <Pressable
@@ -209,19 +262,25 @@ export default function Screen_Login({ navigation }) {
           marginTop: 40,
         }}
       >
-        <Text
-          style={{
-            fontSize: 12,
-            fontWeight: "bold",
-            marginLeft: 5,
-            color: "#fff",
-          }}
-        >
-          Continue
-        </Text>
+        {emailLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                marginLeft: 5,
+                color: "#fff",
+              }}
+            >
+              Continue
+            </Text>
+          </>
+        )}
       </Pressable>
       <Pressable style={{ width: "90%" }}>
-        <Text style={{ fontSize: 10, paddingTop: 20, color: "#01389D" }}>
+        <Text style={{ fontSize: 12, paddingTop: 20, color: "#01389D" }}>
           Forgot your pasword?
         </Text>
       </Pressable>
