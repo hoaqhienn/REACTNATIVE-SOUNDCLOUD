@@ -7,54 +7,46 @@ import { ContextMusic } from '../Context/ContextMusic';
 
 
 export default function Screen_Track({ navigation, route }) {
-  const icon1 = <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} />
-  const icon2 = <Foundation name="pause" size={26} color="white" style={{ paddingHorizontal: 20 }} />
-  const [currentIcon, setCurrentIcon] = useState(icon1)
+  // useEffect(() => {
+  //   if (currentIcon.props.name === "pause") {
+  //     stopTrack();
+  //   }
+  //   console.log(lastPosition);
+  // }, []);
 
-  const iconAdd1 = <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} />
-  const iconAdd2 = <FontAwesome5 name="user-check" size={18} color="red" style={{ paddingRight: 20 }} />
-  const [currentIconAdd, setCurrentIconAdd] = useState(iconAdd1)
-
-  const iconLove1 = <AntDesign name="hearto" size={21} color="white" style={{ paddingRight: 20 }} />
-  const iconLove2 = <AntDesign name="heart" size={21} color="red" style={{ paddingRight: 20 }} />
-  const [currentIconLove, setCurrentIconLove] = useState(iconLove1)
-
-  useEffect(() => {
-    if (currentIcon.props.name === "pause") {
-      stopTrack();
-    }
-  }, []);
 
   // const [data, setData] = useState([]);
-  const [singer, setSinger] = useState('');
-
-  const { data, loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, dataPlay } = useContext(ContextMusic);
-  useEffect(() => {
-    pauseTrack();
-    setSinger(route.params.item.singer);
-    
-  }, []);
-  console.log(route.params.item.singer);
-
-  // const filteredData = data.filter(item => item.singer === route.params.item.singer);
+  const { data, loadMusic, sound, pauseTrack, playTrack, 
+          stopTrack, musicLoadPlay, dataPlay, SetIconPlay ,
+          SetIconLove, currentIconLove,SetIconAdd, currentIconAdd,
+          SetIcon,currentIcon, playAndSeek,lastPosition,soundTest,
+        SetIconAdd1,currentIconAdd1 } = useContext(ContextMusic);
 
   const filteredData = data.filter(item => item.singer.includes(route.params.item.singer))
   const [musicName, setMusicName] = useState([]);
+  // useEffect(() => {
+  //   stopTrack();
+  //   setMusicName(dataPlay)
+  // }, [dataPlay]);
+// console.log(lastPosition);
   useEffect(() => {
-    stopTrack();
-    setMusicName(dataPlay)
-  }, [dataPlay]);
+       loadMusic(musicName.url, lastPosition)
+       playTrack();
+  }, [musicName]);
 
-  const [musicurl, setMusicurl] = useState('');
+  const [data1, setData1] = useState([]);
   useEffect(() => {
-    setMusicurl(route.params.item);
-    loadMusic(musicName.url);
-    // playTrack();
-  }, [musicName]);
-  console.log(sound);
-  useEffect(() => {
-    playTrack();
-  }, [musicName]);
+    setData1(route.params.item);
+  }, [route.params.item]);
+
+
+  const musicLoadPlayTest = (id) => {
+    fetch('https://655e2b5a9f1e1093c59aa3d1.mockapi.io/api/music/'+id)
+        .then(response => response.json())
+        .then(data => {
+            setMusicName(data);
+        })
+}
   return (
     <View style={styles.container}>
 
@@ -165,11 +157,10 @@ export default function Screen_Track({ navigation, route }) {
                 <View>
                   <Pressable
                     style={{ flexDirection: 'row', padding: 10, width: '100%', alignItems: 'center', paddingLeft: 10 }}
-                    onPress={() => { musicLoadPlay(item.id), setCurrentIcon(icon2) }}>
+                    onPress={() => { musicLoadPlay(item.id), SetIconPlay(), musicLoadPlayTest(item.id),stopTrack()}}>
                     <View style={{}}>
                       <Image style={{ width: 70, height: 70, resizeMode: 'contain', borderRadius: 3 }}
                         source={
-                          // require('./assets/icon.png')
                           { uri: item.img }
                         } />
                     </View>
@@ -217,22 +208,14 @@ export default function Screen_Track({ navigation, route }) {
           {/* <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} /> */}
           <Pressable
             onPress={() => {
-              if (currentIcon.props.name === "play") {
-                console.log(icon1.props.name);
-                setCurrentIcon(icon2)
-                playTrack();
-              }
-              else {
-                setCurrentIcon(icon1)
-                pauseTrack();
-              }
+              SetIcon();
             }}
             style={{ position: 'relative' }}>
             {currentIcon}
           </Pressable>
           <View style={{ width: '70%' }}>
-            <Text numberOfLines={1} style={{ color: 'white', fontSize: 13, fontWeight: '700' }}>{musicName.musicname} - {musicName.musicproducer}</Text>
-            <Text style={{ color: 'white', fontSize: 13, }}> {musicName.singer}</Text>
+            <Text numberOfLines={1} style={{ color: 'white', fontSize: 13, fontWeight: '700' }}>{dataPlay.musicname} - {dataPlay.musicproducer}</Text>
+            <Text style={{ color: 'white', fontSize: 13, }}> {dataPlay.singer}</Text>
           </View>
         </View>
 
@@ -241,26 +224,14 @@ export default function Screen_Track({ navigation, route }) {
 
           <Pressable
             onPress={() => {
-              if (currentIconAdd.props.name === "user-plus") {
-                console.log(iconAdd1.props.name);
-                setCurrentIconAdd(iconAdd2)
-              }
-              else {
-                setCurrentIconAdd(iconAdd1)
-              }
+              SetIconAdd()
             }}
             style={{ position: 'relative' }}>
             {currentIconAdd}
           </Pressable>
           <Pressable
             onPress={() => {
-              if (currentIconLove.props.name === "hearto") {
-                // console.log(iconAdd1.props.name);
-                setCurrentIconLove(iconLove2)
-              }
-              else {
-                setCurrentIconLove(iconLove1)
-              }
+              SetIconLove();  
             }}
             style={{ position: 'relative' }}>
             {currentIconLove}

@@ -2,16 +2,22 @@ import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image
 
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState, useContext } from 'react';
-import { Ionicons, Foundation, MaterialCommunityIcons, Feather, AntDesign } from '@expo/vector-icons';
+import { Ionicons, Foundation, MaterialCommunityIcons, Feather, AntDesign, Entypo, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { ContextMusic } from '../Context/ContextMusic';
 import {shuffle} from 'lodash';
 
 export default function Screen_Home({ navigation, route }) {
-  const { data,loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, dataPlay } = useContext(ContextMusic);
-  const shuffledData1 = shuffle(data); 
-  const shuffledData2 = shuffle(data); 
-  const shuffledData3 = shuffle(data); 
-  const shuffledData4 = shuffle(data); 
+  const { data,loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, 
+    dataPlay, SetIconLove,currentIconLove,SetIconAdd, currentIconAdd,  SetIcon,currentIcon,setStatusPlay, SetIconAdd1,currentIconAdd1 } = useContext(ContextMusic);
+  // const shuffledData1 = shuffle(data); 
+  // const shuffledData2 = shuffle(data); 
+  // const shuffledData3 = shuffle(data); 
+  // const shuffledData4 = shuffle(data); 
+  const [musicName, setMusicName] = useState([]);
+  useEffect(() => {
+    // stopTrack();
+    setMusicName(dataPlay)
+  }, [dataPlay]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +49,7 @@ export default function Screen_Home({ navigation, route }) {
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={shuffledData1}
+              data={data}
               renderItem={({ item }) => (
                 <View>
                   <Pressable onPress={() => navigation.navigate("Track", { item })}>
@@ -100,7 +106,7 @@ export default function Screen_Home({ navigation, route }) {
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={shuffledData2}
+              data={data}
               renderItem={({ item }) => (
                 <View>
                   <Pressable onPress={() => navigation.navigate("Track", { item })}>
@@ -157,10 +163,10 @@ export default function Screen_Home({ navigation, route }) {
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={shuffledData3}
+              data={data}
               renderItem={({ item }) => (
                 <View>
-                  <Pressable onPress={() => navigation.navigate("Track", { item })}>
+                  <Pressable onPress={() => {navigation.navigate("Track", { item })}}>
                     <View style={{
                       width: 100,
                       height: 100,
@@ -216,7 +222,7 @@ export default function Screen_Home({ navigation, route }) {
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 style={{ width: '100%' }}
-                data={shuffledData4}
+                data={data}
                 renderItem={({ item }) => (
                   <View>
                     <Pressable onPress={() =>navigation.navigate("Track", { item })}>
@@ -271,20 +277,43 @@ export default function Screen_Home({ navigation, route }) {
         </ScrollView>
 
       </View>
-      <View style={{ backgroundColor: 'black', height: '6%', width: '100%', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }} >
-        <View style={{flexDirection:'row', alignItems:'center'}}>
-          <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} />
-          <View style={{width:'70%'}}>
-            <Text numberOfLines={1} style={{color:'white', fontSize:13, fontWeight:'700'}}>Tháng năm | Freak D Remix</Text>
-            <Text style={{color:'white', fontSize:13,}}>DeeYouSee</Text>
+      <Pressable
+        onPress={() => navigation.navigate('PlayMusic')}
+        style={{ backgroundColor: 'black', height: '6%', width: '100%', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }} >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {/* <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} /> */}
+          <Pressable
+            onPress={() => {
+              SetIcon();
+            }}
+            style={{ position: 'relative' }}>
+            {currentIcon}
+          </Pressable>
+          <View style={{ width: '70%' }}>
+            <Text numberOfLines={1} style={{ color: 'white', fontSize: 13, fontWeight: '700' }}>{musicName.musicname} - {musicName.musicproducer}</Text>
+            <Text style={{ color: 'white', fontSize: 13, }}> {musicName.singer}</Text>
           </View>
         </View>
 
         <View style={{ flexDirection: 'row' }}>
-          <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} />
-          <AntDesign name="hearto" size={21} color="white" style={{ paddingRight: 20 }} />
+          {/* <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} /> */}
+
+          <Pressable
+            onPress={() => {
+              SetIconAdd()
+            }}
+            style={{ position: 'relative' }}>
+            {currentIconAdd}
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              SetIconLove();  
+            }}
+            style={{ position: 'relative' }}>
+            {currentIconLove}
+          </Pressable>
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 }
