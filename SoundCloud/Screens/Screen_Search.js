@@ -50,7 +50,11 @@ export default function ScreenSearch({ navigation, route }) {
   const delayedFetchData = debounce(fetchData, 300);
 
   useEffect(() => {
-    delayedFetchData();
+    if (searchQuery.trim() !== "") {
+      delayedFetchData();
+    } else {
+      setData([]);
+    }
     return delayedFetchData.cancel;
   }, [searchQuery]);
 
@@ -90,6 +94,7 @@ export default function ScreenSearch({ navigation, route }) {
                   console.log(
                     `Pressed item: ${item.musicname} - ${item.singer}`
                   );
+                  //GỌI SANG TRANG PLAY
                 }}
               />
             )}
