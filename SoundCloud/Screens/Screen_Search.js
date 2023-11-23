@@ -1,51 +1,101 @@
-import { Linking, Pressable, StyleSheet, Text, View, ScrollView, FlatList, Image, TextInput } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  FlatList,
+  Text,
+  Pressable,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import debounce from "lodash/debounce";
+import _ from "lodash";
 
-// import { TextInput } from 'react-native-paper';
-import { useEffect, useState } from 'react';
-import { Ionicons, Foundation, FontAwesome5, Feather, AntDesign } from '@expo/vector-icons';
-// import { TextInput } from 'react-native-paper';
+const ListItem = ({ musicname, singer, onPress }) => (
+  <Pressable onPress={onPress} style={{ paddingHorizontal: 10 }}>
+    <Text>
+      {musicname} - {singer}
+    </Text>
+  </Pressable>
+);
 
-
-export default function Screen_Search({ navigation, route }) {
+export default function ScreenSearch({ navigation, route }) {
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://655e2b5a9f1e1093c59aa3d1.mockapi.io/api/music"
+      );
+      const result = await response.json();
+
+      const filteredData = result.filter(
+        (item) =>
+          item.musicname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.singer.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setData(filteredData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError("An error occurred while fetching data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const delayedFetchData = debounce(fetchData, 300);
+
   useEffect(() => {
-    fetch('https://6544afd55a0b4b04436cbf81.mockapi.io/soundcloud/music')
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-      })
-  }, []);
+    delayedFetchData();
+    return delayedFetchData.cancel;
+  }, [searchQuery]);
+
+  const handleSearch = () => {};
+
   return (
     <View style={styles.container}>
-
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        height: '13%',
-        paddingHorizontal: 20,
-        paddingTop: 35
-      }} >
-        <View style={{ width: '85%', height:35,backgroundColor: '#F3F3F3', flexDirection:'row', alignItems:'center' }}>
-          <Feather name="search" size={24} color="black" style={{paddingHorizontal:10}} />
-          <TextInput style={{ width: '85%', height: 35, backgroundColor: '#F3F3F3' }} />
+      <View style={styles.searchContainer}>
+        <Feather
+          name="search"
+          size={24}
+          color="black"
+          style={styles.searchIcon}
+        />
+        <TextInput
+          style={[styles.input]}
+          placeholder="Search..."
+          value={searchQuery}
+          onChangeText={(text) => {
+            setSearchQuery(text);
+          }}
+          underlineColorAndroid="transparent"
+        />
+      </View>
+      {loading && <Text>Loading...</Text>}
+      {error && <Text style={{ color: "red" }}>{error}</Text>}
+      {data.length > 0 && (
+        <View style={styles.listContainer}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <ListItem
+                {...item}
+                onPress={() => {
+                  console.log(
+                    `Pressed item: ${item.musicname} - ${item.singer}`
+                  );
+                }}
+              />
+            )}
+          />
         </View>
-        <FontAwesome5 name="chromecast" size={23} color="black" />
-      </View>
-      <View
-        style={{ width: '100%', height: '81%' }}
-      >
-
-
-
-      </View>
-      <View style={{ backgroundColor: 'black', height: '6%', width: '100%', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }} >
-        <Foundation name="play" size={26} color="white" style={{ paddingLeft: 20 }} />
-        <View style={{ flexDirection: 'row' }}>
-          <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} />
-          <AntDesign name="hearto" size={21} color="white" style={{ paddingRight: 20 }} />
-        </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -53,7 +103,29 @@ export default function Screen_Search({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "90%",
+    height: 35,
+    marginTop: 35,
+    marginBottom: 10,
+    backgroundColor: "#F3F3F3",
+  },
+  searchIcon: {
+    paddingHorizontal: 10,
+  },
+  input: {
+    width: "85%",
+    height: 35,
+    backgroundColor: "#F3F3F3",
+  },
+  listContainer: {
+    width: "100%",
+    height: "95%",
   },
 });

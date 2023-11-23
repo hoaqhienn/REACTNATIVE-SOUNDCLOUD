@@ -38,7 +38,7 @@ export default function Screen_Home() {
       await playTrack(item.url);
       setIsPlaying(true);
     }
-  
+
     setCurrentItem(item);
   };
 
@@ -87,6 +87,12 @@ export default function Screen_Home() {
     };
 
     fetchData();
+
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
   }, []);
 
   const renderItem = ({ item }) => (
@@ -122,9 +128,17 @@ export default function Screen_Home() {
           }}
         >
           <View>
-            <Text style={{ fontSize: 16, fontWeight: 700 }}>
-              {item.musicname} - {item.singer}
+            <Text style={{ fontSize: 16, fontWeight: 500 }}>
+              {`${
+                (item.musicname + " - " + item.singer).length > 30
+                  ? `${(item.musicname + " - " + item.singer).substring(
+                      0,
+                      27
+                    )}...`
+                  : `${item.musicname} - ${item.singer}`
+              }`}
             </Text>
+
             <Pressable
               style={{
                 backgroundColor: "lightgray",
@@ -230,7 +244,10 @@ export default function Screen_Home() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
           <FlatList
             style={{ width: "100%", padding: 10 }}

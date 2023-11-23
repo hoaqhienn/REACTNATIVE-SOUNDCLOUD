@@ -13,6 +13,7 @@ import Screen_Feed from './Screens/Screen_Feed';
 import Screen_PlayMusic from './Screens/Screen_PlayMusic';
 import Screen_Track from './Screens/Screen_Track';
 import { ContextMusicProvider } from './Context/ContextMusic';
+import Screen_Signout from './Screens/Screen_Signout';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,12 +86,13 @@ function MyStack() {
   return (
     <ContextMusicProvider>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
+        <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
         <Stack.Screen name="Login" component={Screen_Login} options={{headerShown:false}} />
-        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} /> */}
+        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} />
         <Stack.Screen name="Home" component={TabScreens} options={{ headerShown: false }} />
         <Stack.Screen name="PlayMusic" component={Screen_PlayMusic} options={{ headerShown: false }} />
         <Stack.Screen name="Track" component={Screen_Track} options={{ headerShown: false }} />
+        <Stack.Screen name="Signout" component={Screen_Signout} options={{ headerShown: false }} />
       </Stack.Navigator>
     </ContextMusicProvider>
   );
