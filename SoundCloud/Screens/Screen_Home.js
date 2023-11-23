@@ -8,11 +8,13 @@ import {shuffle} from 'lodash';
 
 export default function Screen_Home({ navigation, route }) {
   const { data,loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay, 
-    dataPlay, SetIconLove,currentIconLove,SetIconAdd, currentIconAdd,  SetIcon,currentIcon,setStatusPlay, SetIconAdd1,currentIconAdd1 } = useContext(ContextMusic);
-  // const shuffledData1 = shuffle(data); 
-  // const shuffledData2 = shuffle(data); 
-  // const shuffledData3 = shuffle(data); 
-  // const shuffledData4 = shuffle(data); 
+    dataPlay, SetIconLove,currentIconLove,SetIconAdd, currentIconAdd,  SetIcon,currentIcon
+    ,setStatusPlay, SetIconAdd1,currentIconAdd1 } = useContext(ContextMusic);
+    
+  const shuffledData1 = shuffle(data); 
+  const shuffledData2 = shuffle(data); 
+  const shuffledData3 = shuffle(data); 
+  const shuffledData4 = shuffle(data); 
   const [musicName, setMusicName] = useState([]);
   useEffect(() => {
     // stopTrack();
@@ -49,7 +51,7 @@ export default function Screen_Home({ navigation, route }) {
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               style={{ width: '100%' }}
-              data={data}
+              data={shuffledData1}
               renderItem={({ item }) => (
                 <View>
                   <Pressable onPress={() => navigation.navigate("Track", { item })}>

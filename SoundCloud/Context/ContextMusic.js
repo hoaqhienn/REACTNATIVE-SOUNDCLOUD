@@ -41,16 +41,22 @@ export const ContextMusicProvider = ({ children }) => {
         setSound(sound);
         
     }
-
+    const [durationMillis, setDurationMillis] = useState();  
     const autoplayTrack = async (s) => {
         await s.playAsync();
         const status = await s.getStatusAsync();
-
+      console.log(status);
+      setCurrentIcon(icon2)
+      setCurrentIconAdd(iconAdd1)
+      setCurrentIconAdd1(iconAdd11)
+      setCurrentIconLove(iconLove1)
+      setDurationMillis(status.durationMillis);
         
       }
       const playTrack = async () => {
         await sound.playAsync();
         const status = await sound.getStatusAsync();
+        setDurationMillis(status.durationMillis);
       }
     
     const stopTrack = async () => {
@@ -72,10 +78,12 @@ export const ContextMusicProvider = ({ children }) => {
     const SetIcon = () => {
         if (currentIcon.props.name === "play") {
             setCurrentIcon(icon2)
+            setCurrentIconPlay(iconPlay2)
             playTrack();
           }
           else {
             setCurrentIcon(icon1)
+            setCurrentIconPlay(iconPlay1)
             pauseTrack();
           }
     }
@@ -123,6 +131,23 @@ export const ContextMusicProvider = ({ children }) => {
           }
     }
     
+    const iconPlay1 = <AntDesign name="play" size={55} color="white" />
+    const iconPlay2 = <Ionicons name="md-pause-circle-sharp" size={67} color="white" />
+    const [currentIconPlay, setCurrentIconPlay] = useState(iconPlay1)
+    const SetIconPlayTrack = () => {
+        if (currentIconPlay.props.name === "play") {
+            setCurrentIconPlay(iconPlay2)
+            setCurrentIcon(icon2)
+            playTrack();
+          }
+          else {
+            setCurrentIconPlay(iconPlay1)
+            setCurrentIcon(icon1)
+            pauseTrack();
+          }
+    }
+
+
     async function playAndSeek() {
         try {
           await sound.playAsync(); // Bắt đầu phát nhạc
@@ -135,7 +160,8 @@ export const ContextMusicProvider = ({ children }) => {
                                             stopTrack, musicLoadPlay, dataPlay, SetIcon,currentIcon, 
                                             SetIconPlay, SetIconLove,currentIconLove, 
                                             SetIconAdd, currentIconAdd, statusPlay, setStatusPlay, playAndSeek, lastPosition,
-                                            SetIconAdd1,currentIconAdd1 }}>
+                                            SetIconAdd1,currentIconAdd1,durationMillis,
+                                            currentIconPlay,SetIconPlayTrack }}>
         {children}
     </ContextMusic.Provider>;
 }

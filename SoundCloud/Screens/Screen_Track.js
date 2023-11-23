@@ -20,7 +20,7 @@ export default function Screen_Track({ navigation, route }) {
           stopTrack, musicLoadPlay, dataPlay, SetIconPlay ,
           SetIconLove, currentIconLove,SetIconAdd, currentIconAdd,
           SetIcon,currentIcon, playAndSeek,lastPosition,soundTest,
-        SetIconAdd1,currentIconAdd1 } = useContext(ContextMusic);
+        SetIconAdd1,currentIconAdd1, currentIconPlay,SetIconPlayTrack } = useContext(ContextMusic);
 
   const filteredData = data.filter(item => item.singer.includes(route.params.item.singer))
   const [musicName, setMusicName] = useState([]);
@@ -157,7 +157,7 @@ export default function Screen_Track({ navigation, route }) {
                 <View>
                   <Pressable
                     style={{ flexDirection: 'row', padding: 10, width: '100%', alignItems: 'center', paddingLeft: 10 }}
-                    onPress={() => { musicLoadPlay(item.id), SetIconPlay(), musicLoadPlayTest(item.id),stopTrack()}}>
+                    onPress={() => { musicLoadPlay(item.id) ,musicLoadPlayTest(item.id),stopTrack()}}>
                     <View style={{}}>
                       <Image style={{ width: 70, height: 70, resizeMode: 'contain', borderRadius: 3 }}
                         source={
