@@ -72,7 +72,9 @@ export default function Screen_PlayMusic({ navigation, route }) {
         </View>
       </View>
       <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', width:'100%', height:60, marginVertical:250}}>
-            <Pressable><AntDesign name="leftcircle" size={53} color="white" /></Pressable>
+            <Pressable
+             onPress={() => getRandomObject(data)}
+            ><AntDesign name="leftcircle" size={53} color="white" /></Pressable>
             <Pressable 
               style={{position:'absolute'}}
               onPress={() => SetIconPlayTrack()}
