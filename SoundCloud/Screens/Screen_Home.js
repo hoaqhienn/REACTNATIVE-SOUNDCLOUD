@@ -92,7 +92,7 @@ export default function Screen_Home({ navigation, route }) {
         </View>
       </View>
       <View style={{ width: "100%", height: "81%" }}>
-        <ScrollView style={{}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{}}>
           <View style={{ width: "100%" }}>
             <Text style={{ fontSize: 20, fontWeight: "600", paddingLeft: 20 }}>
               More of what you like

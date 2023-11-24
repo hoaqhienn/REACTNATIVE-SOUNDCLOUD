@@ -116,9 +116,9 @@ function MyStack() {
   return (
     <ContextMusicProvider>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
+        <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
         <Stack.Screen name="Login" component={Screen_Login} options={{headerShown:false}} />
-        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} /> */}
+        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} />
         <Stack.Screen name="Home" component={TabScreens} options={{ headerShown: false }} />
         <Stack.Screen name="PlayMusic" component={Screen_PlayMusic} options={{ headerShown: false }} />
         <Stack.Screen name="Track" component={Screen_Track} options={{ headerShown: false }} />
