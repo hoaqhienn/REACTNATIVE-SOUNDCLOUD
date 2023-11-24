@@ -29,7 +29,23 @@ export default function Screen_Library({ navigation, route }) {
     stopTrack,
     musicLoadPlay,
     dataPlay,
+    SetIconLove,
+    currentIconLove,
+    SetIconAdd,
+    currentIconAdd,
+    SetIcon,
+    currentIcon,
+    setStatusPlay,
+    SetIconAdd1,
+    currentIconAdd1,
   } = useContext(ContextMusic);
+
+
+  const [musicName, setMusicName] = useState([]);
+  useEffect(() => {
+    // stopTrack();
+    setMusicName(dataPlay);
+  }, [dataPlay]);
   return (
     <View style={styles.container}>
       <View
@@ -191,7 +207,7 @@ export default function Screen_Library({ navigation, route }) {
               renderItem={({ item }) => (
                 <View>
                   <Pressable
-                    onPress={() => navigation.navigate("Track", { item })}
+                    onPress={() =>  navigation.navigate("Track", { item })}
                   >
                     <View
                       style={{
@@ -301,7 +317,7 @@ export default function Screen_Library({ navigation, route }) {
                       alignItems: "center",
                       paddingLeft: 20,
                     }}
-                    onPress={() => navigation.navigate("PlayMusic", { item })}
+                    onPress={() => navigation.navigate("Track", { item })}
                   >
                     <View style={{}}>
                       <Image
@@ -373,7 +389,8 @@ export default function Screen_Library({ navigation, route }) {
           </View>
         </ScrollView>
       </View>
-      <View
+      <Pressable
+        onPress={() => navigation.navigate("PlayMusic")}
         style={{
           backgroundColor: "black",
           height: "6%",
@@ -383,27 +400,51 @@ export default function Screen_Library({ navigation, route }) {
           alignItems: "center",
         }}
       >
-        <Foundation
-          name="play"
-          size={26}
-          color="white"
-          style={{ paddingLeft: 20 }}
-        />
-        <View style={{ flexDirection: "row" }}>
-          <Feather
-            name="user-plus"
-            size={23}
-            color="white"
-            style={{ paddingRight: 20 }}
-          />
-          <AntDesign
-            name="hearto"
-            size={21}
-            color="white"
-            style={{ paddingRight: 20 }}
-          />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {/* <Foundation name="play" size={26} color="white" style={{ paddingHorizontal: 20 }} /> */}
+          <Pressable
+            onPress={() => {
+              SetIcon();
+            }}
+            style={{ position: "relative" }}
+          >
+            {currentIcon}
+          </Pressable>
+          <View style={{ width: "70%" }}>
+            <Text
+              numberOfLines={1}
+              style={{ color: "white", fontSize: 13, fontWeight: "700" }}
+            >
+              {musicName.musicname} - {musicName.musicproducer}
+            </Text>
+            <Text style={{ color: "white", fontSize: 13 }}>
+              {" "}
+              {musicName.singer}
+            </Text>
+          </View>
         </View>
-      </View>
+
+        <View style={{ flexDirection: "row" }}>
+          {/* <Feather name="user-plus" size={23} color="white" style={{ paddingRight: 20 }} /> */}
+
+          <Pressable
+            onPress={() => {
+              SetIconAdd();
+            }}
+            style={{ position: "relative" }}
+          >
+            {currentIconAdd}
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              SetIconLove();
+            }}
+            style={{ position: "relative" }}
+          >
+            {currentIconLove}
+          </Pressable>
+        </View>
+      </Pressable>
     </View>
   );
 }

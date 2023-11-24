@@ -36,6 +36,36 @@ function TabScreens1() {
   )
 }
 
+function TabScreens2() {
+  return (
+    <TabStack.Navigator>
+      <TabStack.Screen name="Screen1" component={Screen_Library} options={{
+        headerShown: false
+
+      }} />
+      <TabStack.Screen name="Track" component={Screen_Track} options={{
+        headerShown: false
+
+      }} />
+    </TabStack.Navigator>
+  )
+}
+
+function TabScreens3() {
+  return (
+    <TabStack.Navigator>
+      <TabStack.Screen name="Screen1" component={Screen_Search} options={{
+        headerShown: false
+
+      }} />
+      <TabStack.Screen name="Track" component={Screen_Track} options={{
+        headerShown: false
+
+      }} />
+    </TabStack.Navigator>
+  )
+}
+
 
 const TabScreens = () => (
   <Tab.Navigator
@@ -72,11 +102,11 @@ const TabScreens = () => (
     <Tab.Screen name="Search" options={{
       headerShown: false
 
-    }} component={Screen_Search} />
+    }} component={TabScreens3} />
     <Tab.Screen name="Libarary" options={{
       headerShown: false
 
-    }} component={Screen_Library} />
+    }} component={TabScreens2} />
 
   </Tab.Navigator>
 );
@@ -86,9 +116,9 @@ function MyStack() {
   return (
     <ContextMusicProvider>
       <Stack.Navigator>
-        <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
+        {/* <Stack.Screen name="Start" component={Screen_Start} options={{headerShown:false}} />
         <Stack.Screen name="Login" component={Screen_Login} options={{headerShown:false}} />
-        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} />
+        <Stack.Screen name="SignUp" component={Screen_SignUp} options={{headerShown:false}} /> */}
         <Stack.Screen name="Home" component={TabScreens} options={{ headerShown: false }} />
         <Stack.Screen name="PlayMusic" component={Screen_PlayMusic} options={{ headerShown: false }} />
         <Stack.Screen name="Track" component={Screen_Track} options={{ headerShown: false }} />
