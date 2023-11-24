@@ -12,7 +12,7 @@ export default function Screen_PlayMusic({ navigation, route }) {
   const { data, loadMusic, sound, pauseTrack, playTrack, stopTrack, musicLoadPlay,
     dataPlay, SetIconLove, currentIconLove, SetIconAdd, currentIconAdd,
     SetIcon, currentIcon, setStatusPlay, SetIconAdd1, currentIconAdd1,
-    lastPosition, durationMillis, currentIconPlay,SetIconPlayTrack } = useContext(ContextMusic);
+    lastPosition, durationMillis, currentIconPlay,SetIconPlayTrack, getRandomSong, setDataPlay } = useContext(ContextMusic);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -25,6 +25,21 @@ export default function Screen_PlayMusic({ navigation, route }) {
     return () => clearInterval(interval);
   }, []);
   console.log(dataPlay.url);
+  const [randomObject, setRandomObject] = useState([]);
+  const getRandomObject = (arr) => {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    stopTrack();
+    setDataPlay(arr[randomIndex]);  
+   setRandomObject(arr[randomIndex]); 
+  }
+  
+  // Lấy ngẫu nhiên 1 object
+  useEffect(() => {
+    // stopTrack();
+    console.log(randomObject);
+    loadMusic(randomObject.url);
+    // getRandomSong();
+  }, [randomObject]);
   return (
     <View style={styles.container}>
       <Image
@@ -33,6 +48,7 @@ export default function Screen_PlayMusic({ navigation, route }) {
           uri: dataPlay.img
         }}
 
+        
       />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingHorizontal: 20 }}>
         <View>
@@ -61,7 +77,9 @@ export default function Screen_PlayMusic({ navigation, route }) {
               style={{position:'absolute'}}
               onPress={() => SetIconPlayTrack()}
             >{currentIconPlay}</Pressable>
-            <Pressable><AntDesign name="rightcircle" size={53} color="white" /></Pressable>
+            <Pressable 
+              onPress={() => getRandomObject(data)}
+            ><AntDesign name="rightcircle" size={53} color="white" /></Pressable>
       </View>
        <View style={{marginBottom:130}}>
         <Slider

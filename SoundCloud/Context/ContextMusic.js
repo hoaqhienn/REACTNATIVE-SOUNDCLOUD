@@ -28,7 +28,7 @@ export const ContextMusicProvider = ({ children }) => {
     // const [dataMusic, setDataMusic] = useState([]);
     const [sound, setSound] = useState();
     const [lastPosition, setLastPosition] = useState();
-    const loadMusic = async (url, a) => {
+    const loadMusic = async (url) => {
         const { sound } = await Audio.Sound.createAsync({
             uri: url
         });
@@ -36,7 +36,6 @@ export const ContextMusicProvider = ({ children }) => {
         sound.setOnPlaybackStatusUpdate(status => {
             setLastPosition(status.positionMillis);
           });
-        sound.setPositionAsync(a);
         autoplayTrack(sound);
         setSound(sound);
         
@@ -58,6 +57,7 @@ export const ContextMusicProvider = ({ children }) => {
         await sound.playAsync();
         const status = await sound.getStatusAsync();
         setDurationMillis(status.durationMillis);
+        console.log(status);  
       }
     
     const stopTrack = async () => {
@@ -67,6 +67,7 @@ export const ContextMusicProvider = ({ children }) => {
     const pauseTrack = async () => {
         await sound.pauseAsync();
         const status = await sound.getStatusAsync();
+        console.log(status);
       }
 
     
@@ -157,12 +158,19 @@ export const ContextMusicProvider = ({ children }) => {
           console.error('Error playing sound:', error);
         }
       }
+
+      async function getRandomSong() {
+      
+        const randomSong = data[Math.floor(Math.random() * data.length)];
+        
+        return randomSong; 
+      }
     return <ContextMusic.Provider value={{ data, loadMusic, sound, playTrack ,pauseTrack, 
                                             stopTrack, musicLoadPlay, dataPlay, SetIcon,currentIcon, 
                                             SetIconPlay, SetIconLove,currentIconLove, 
                                             SetIconAdd, currentIconAdd, statusPlay, setStatusPlay, playAndSeek, lastPosition,
                                             SetIconAdd1,currentIconAdd1,durationMillis,
-                                            currentIconPlay,SetIconPlayTrack }}>
+                                            currentIconPlay,SetIconPlayTrack, getRandomSong, setDataPlay }}>
         {children}
     </ContextMusic.Provider>;
 }

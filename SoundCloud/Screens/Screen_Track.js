@@ -7,12 +7,9 @@ import { ContextMusic } from '../Context/ContextMusic';
 
 
 export default function Screen_Track({ navigation, route }) {
-  // useEffect(() => {
-  //   if (currentIcon.props.name === "pause") {
-  //     stopTrack();
-  //   }
-  //   console.log(lastPosition);
-  // }, []);
+  useEffect(() => {
+    console.log(currentIcon.props.name);
+  }, []);
 
 
   // const [data, setData] = useState([]);
